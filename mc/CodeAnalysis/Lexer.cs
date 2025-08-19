@@ -1,7 +1,7 @@
 ﻿// ReSharper disable once CheckNamespace
 namespace Minsk.CodeAnalysis;
 
-class Lexer(string text)
+internal sealed class Lexer(string text)
 {
     private int _positon;
     private readonly List<string> _diagnostics = [];

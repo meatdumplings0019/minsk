@@ -1,7 +1,7 @@
 ﻿// ReSharper disable once CheckNamespace
 namespace Minsk.CodeAnalysis;
 
-class SyntaxToken(SyntaxKind kind, int positon, string? text, object? value) : SyntaxNode
+public sealed class SyntaxToken(SyntaxKind kind, int positon, string? text, object? value) : SyntaxNode
 {
     public override SyntaxKind Kind { get; } = kind;
     public int Positon { get; } = positon;

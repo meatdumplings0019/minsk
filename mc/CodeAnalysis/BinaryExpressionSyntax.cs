@@ -1,7 +1,7 @@
 ﻿// ReSharper disable once CheckNamespace
 namespace Minsk.CodeAnalysis;
 
-sealed class BinaryExpressionSyntax(ExpressionSyntax left, SyntaxToken operatorToken, ExpressionSyntax right) : ExpressionSyntax
+public sealed class BinaryExpressionSyntax(ExpressionSyntax left, SyntaxToken operatorToken, ExpressionSyntax right) : ExpressionSyntax
 {
     public ExpressionSyntax Left { get; } = left;
     public SyntaxToken OperatorToken { get; } = operatorToken;

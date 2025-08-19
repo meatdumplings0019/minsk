@@ -1,7 +1,7 @@
 ﻿// ReSharper disable once CheckNamespace
 namespace Minsk.CodeAnalysis;
 
-class Evaluator(ExpressionSyntax root)
+public sealed class Evaluator(ExpressionSyntax root)
 {
     public int Evaluate()
     {
@@ -12,8 +12,8 @@ class Evaluator(ExpressionSyntax root)
     {
         switch (node)
         {
-            case NumberExpressionSyntax n:
-                return (int)(n.NumberToken.Value ?? throw new InvalidOperationException());
+            case LiteralExpressionSyntax n:
+                return (int)(n.LiteralToken.Value ?? throw new InvalidOperationException());
             case BinaryExpressionSyntax b:
             {
                 var left = EvaluateExpression(b.Left);

@@ -1,13 +1,13 @@
 ﻿// ReSharper disable once CheckNamespace
 namespace Minsk.CodeAnalysis;
 
-sealed class NumberExpressionSyntax(SyntaxToken numberToken) : ExpressionSyntax
+public sealed class LiteralExpressionSyntax(SyntaxToken literalToken) : ExpressionSyntax
 {
-    public SyntaxToken NumberToken { get; } = numberToken;
+    public SyntaxToken LiteralToken { get; } = literalToken;
     public override SyntaxKind Kind => SyntaxKind.NumberExpression;
     
     public override IEnumerable<SyntaxNode> GetChildren()
     {
-        yield return NumberToken;
+        yield return LiteralToken;
     }
 }
