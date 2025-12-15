@@ -14,9 +14,16 @@ class Program
     }
 }
 
-class SyntaxToken
+enum SyntaxKind
 {
     
+}
+
+class SyntaxToken(SyntaxKind kind, int position, string text)
+{
+    public SyntaxKind Kind { get; } = kind;
+    public int Position { get; } = position;
+    public string Text { get; } = text;
 }
 
 class Lexer(string text)
