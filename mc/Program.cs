@@ -14,6 +14,11 @@ class Program
     }
 }
 
+class SyntaxToken
+{
+    
+}
+
 class Lexer(string text)
 {
     private readonly string _text = text;
