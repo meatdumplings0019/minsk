@@ -107,6 +107,8 @@ abstract class SyntaxNode
     public abstract SyntaxKind Kind { get; }
 }
 
+abstract class ExpressionSyntax : SyntaxNode;
+
 class Parser
 {
     private readonly SyntaxToken[] _tokens;
