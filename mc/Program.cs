@@ -39,7 +39,8 @@ enum SyntaxKind
     OpenParenthesisToken,
     CloseParenthesisToken,
     BadToken,
-    EndOfFileToken
+    EndOfFileToken,
+    NumberExpression
 }
 
 class SyntaxToken(SyntaxKind kind, int position, string text, object? value)
@@ -108,6 +109,12 @@ abstract class SyntaxNode
 }
 
 abstract class ExpressionSyntax : SyntaxNode;
+
+sealed class NumberSyntax(SyntaxToken numberToken) : ExpressionSyntax
+{
+    public override SyntaxKind Kind => SyntaxKind.NumberExpression;
+    public SyntaxToken NumberToken { get; } = numberToken;
+}
 
 class Parser
 {
