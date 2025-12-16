@@ -40,7 +40,8 @@ enum SyntaxKind
     CloseParenthesisToken,
     BadToken,
     EndOfFileToken,
-    NumberExpression
+    NumberExpression,
+    BinaryExpression
 }
 
 class SyntaxToken(SyntaxKind kind, int position, string text, object? value)
@@ -110,10 +111,18 @@ abstract class SyntaxNode
 
 abstract class ExpressionSyntax : SyntaxNode;
 
-sealed class NumberSyntax(SyntaxToken numberToken) : ExpressionSyntax
+sealed class NumberExpressionSyntax(SyntaxToken numberToken) : ExpressionSyntax
 {
     public override SyntaxKind Kind => SyntaxKind.NumberExpression;
     public SyntaxToken NumberToken { get; } = numberToken;
+}
+
+sealed class BinaryExpressionSyntax(ExpressionSyntax left, SyntaxNode operatorToken, ExpressionSyntax right) : ExpressionSyntax
+{
+    public override SyntaxKind Kind => SyntaxKind.BinaryExpression;
+    public ExpressionSyntax Left { get; } = left;
+    public SyntaxNode OperatorToken { get; } = operatorToken;
+    public ExpressionSyntax Right { get; } = right;
 }
 
 class Parser
