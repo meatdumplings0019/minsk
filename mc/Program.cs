@@ -101,3 +101,36 @@ class Lexer(string text)
         };
     }
 }
+
+class Parser
+{
+    private readonly SyntaxToken[] _tokens;
+    private int _position;
+    
+    public Parser(string text)
+    {
+        var tokens = new List<SyntaxToken>();
+        
+        var lexer = new Lexer(text);
+        SyntaxToken token;
+        do
+        {
+            token = lexer.NextToken();
+            
+            if (token.Kind != SyntaxKind.WhiteSpaceToken &&
+                token.Kind != SyntaxKind.BadToken)
+                tokens.Add(token);
+            
+        } while(token.Kind != SyntaxKind.EndOfFileToken);
+        
+        _tokens = tokens.ToArray();
+    }
+
+    private SyntaxToken Peek(int offset)
+    {
+        var index = _position + offset;
+        return index >= _tokens.Length ? _tokens[^1] : _tokens[index];
+    }
+    
+    private SyntaxToken Current => Peek(0);
+}
