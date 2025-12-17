@@ -44,7 +44,7 @@ enum SyntaxKind
     BinaryExpression
 }
 
-class SyntaxToken(SyntaxKind kind, int position, string text, object? value)
+class SyntaxToken(SyntaxKind kind, int position, string? text, object? value)
 {
     public SyntaxKind Kind { get; } = kind;
     public int Position { get; } = position;
@@ -117,11 +117,11 @@ sealed class NumberExpressionSyntax(SyntaxToken numberToken) : ExpressionSyntax
     public SyntaxToken NumberToken { get; } = numberToken;
 }
 
-sealed class BinaryExpressionSyntax(ExpressionSyntax left, SyntaxNode operatorToken, ExpressionSyntax right) : ExpressionSyntax
+sealed class BinaryExpressionSyntax(ExpressionSyntax left, SyntaxToken operatorToken, ExpressionSyntax right) : ExpressionSyntax
 {
     public override SyntaxKind Kind => SyntaxKind.BinaryExpression;
     public ExpressionSyntax Left { get; } = left;
-    public SyntaxNode OperatorToken { get; } = operatorToken;
+    public SyntaxToken OperatorToken { get; } = operatorToken;
     public ExpressionSyntax Right { get; } = right;
 }
 
@@ -156,4 +156,39 @@ class Parser
     }
     
     private SyntaxToken Current => Peek(0);
+
+    private SyntaxToken NextToken()
+    {
+        var current = Current;
+        _position++;
+        return current;
+    }
+
+    private SyntaxToken Match(SyntaxKind kind)
+    {
+        if (Current.Kind == kind)
+            return NextToken();
+
+        return new SyntaxToken(kind, Current.Position, null, null);
+    }
+    
+    public ExpressionSyntax Parse()
+    {
+        var left = ParsePrimaryExpression();
+
+        while (Current.Kind is SyntaxKind.PlusToken or SyntaxKind.MinusToken)
+        {
+            var operatorToken = NextToken();
+            var right = ParsePrimaryExpression();
+            left = new BinaryExpressionSyntax(left, operatorToken, right);
+        }
+
+        return left;
+    }
+
+    private ExpressionSyntax ParsePrimaryExpression()
+    {
+        var numberToken = Match(SyntaxKind.NumberToken);
+        return new NumberExpressionSyntax(numberToken);
+    }
 }
